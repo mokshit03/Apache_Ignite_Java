@@ -31,19 +31,20 @@ public class IgniteClientApplication {
             pstmt.close();
 
             //UPDATE INTO CACHE
-            pstmt = igniteConnection.prepareStatement("UPDATE employee SET  country = 'USA' WHERE id IN(1,2,3)");
+            pstmt = igniteConnection.prepareStatement("UPDATE employee SET  country = 'India' WHERE id IN(1,2,3)");
             pstmt.executeUpdate();
             System.out.println("Updated records with id 1,2,3");
             pstmt.close();
 
             //SELECT INTO CACHE
             Statement stmt = igniteConnection.createStatement();
-            rs = stmt.executeQuery("SELECT e.name, e.country FROM Employee e");
+            rs = stmt.executeQuery("SELECT e.id, e.name, e.country FROM Employee e");
 
             while(rs.next()){
-                String name = rs.getString(1);
-                String country = rs.getString(2);
-                System.out.println(name+"\t"+country);
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                String country = rs.getString("country");
+                System.out.println(id+"\t"+name+"\t"+country);
             }
 
             rs.close();
