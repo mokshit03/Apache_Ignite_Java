@@ -13,19 +13,30 @@ public class IgniteClientApplication {
     public static void main(String[] args) {
         try {
             Class.forName("org.apache.ignite.IgniteJdbcThinDriver");
-
-            // Use the correct JDBC URL format for Ignite
             igniteConnection = DriverManager.getConnection("jdbc:ignite:thin://USBLRMOKBHA1.us.deloitte.com:10800");
 
-            //Use separate variables for Statement and PreparedStatement
+            //INSERT INTO CACHE
             PreparedStatement pstmt = igniteConnection.prepareStatement("INSERT INTO employee (id, name, country) VALUES (?, ?, ?)");
-
-            pstmt.setString(1, "4");
-            pstmt.setString(2, "James");
-            pstmt.setString(3, "EEUU");
+            pstmt.setString(1, "8");
+            pstmt.setString(2, "Mehul 3");
+            pstmt.setString(3, "India");
             pstmt.executeUpdate();
             pstmt.close();
 
+            //DELETE INTO CACHE
+            pstmt = igniteConnection.prepareStatement("DELETE FROM employee WHERE id = ?");
+            pstmt.setString(1, "8");
+            pstmt.executeUpdate();
+            System.out.println("Deleted record with id 4");
+            pstmt.close();
+
+            //UPDATE INTO CACHE
+            pstmt = igniteConnection.prepareStatement("UPDATE employee SET  country = 'USA' WHERE id IN(1,2,3)");
+            pstmt.executeUpdate();
+            System.out.println("Updated records with id 1,2,3");
+            pstmt.close();
+
+            //SELECT INTO CACHE
             Statement stmt = igniteConnection.createStatement();
             rs = stmt.executeQuery("SELECT e.name, e.country FROM Employee e");
 
@@ -38,11 +49,11 @@ public class IgniteClientApplication {
             rs.close();
             stmt.close();
             igniteConnection.close();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

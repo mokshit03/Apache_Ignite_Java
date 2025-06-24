@@ -26,7 +26,6 @@ public class IgniteConfiguration {
         org.apache.ignite.configuration.IgniteConfiguration cfg = new org.apache.ignite.configuration.IgniteConfiguration();
         cfg.setDataStorageConfiguration(getDataStorageConfiguration());
 
-        // Set Ignite persistent storage directory (required for SQL and persistence)
         String workDir = System.getProperty("user.dir") + "/ignite-work";
         java.io.File dir = new java.io.File(workDir);
         if (!dir.exists()) {
@@ -45,14 +44,10 @@ public class IgniteConfiguration {
 
     @org.springframework.context.event.EventListener(org.springframework.boot.context.event.ApplicationReadyEvent.class)
     public void onApplicationReady(org.springframework.boot.context.event.ApplicationReadyEvent event) {
-        // This method will be called when the application is ready
-        // You can perform any initialization or data loading here
         System.out.println("Apache Ignite Client Application is ready.");
 
-        // Get the Ignite bean from the Spring context
         Ignite ignite = event.getApplicationContext().getBean(Ignite.class);
         
-        // Ensure the cluster is active before running SQL queries
         ignite.cluster().state(org.apache.ignite.cluster.ClusterState.ACTIVE);
         createSqlTable(ignite);
         importDataFromMySQL(ignite);
@@ -103,7 +98,7 @@ private void importDataFromMySQL(Ignite ignite) {
                 String name = rs.getString("name");
                 String country = rs.getString("country");
 
-                // Check if the key already exists to avoid duplicate key exception
+        
                 SqlFieldsQuery checkQuery = new SqlFieldsQuery(
                         "SELECT id FROM employee WHERE id = ?"
                 ).setArgs(id);
