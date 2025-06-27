@@ -10,5 +10,3 @@ public class ApacheIgniteClientApplication{
         SpringApplication.run(ApacheIgniteClientApplication.class, args);
     }
 }
-
-

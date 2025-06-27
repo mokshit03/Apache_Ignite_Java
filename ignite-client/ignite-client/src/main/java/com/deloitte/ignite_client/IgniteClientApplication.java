@@ -29,9 +29,9 @@ public class IgniteClientApplication {
             rs = stmt.executeQuery("SELECT e.id, e.name, e.country FROM Employee e");
             int count=0;
             while(rs.next()){
-                String id = rs.getString("id");
-                String name = rs.getString("name");
-                String country = rs.getString("country");
+                // String id = rs.getString("id");
+                // String name = rs.getString("name");
+                // String country = rs.getString("country");
                 count++;
                 //System.out.println(id+"\t"+name+"\t"+country);
             }
@@ -40,8 +40,7 @@ public class IgniteClientApplication {
             System.out.println("SELECTED "+ count+ " RECORDS FROM CACHE"+(endTime-startTime) );
             rs.close();
             stmt.close();
-            //igniteConnection.close();
-
+        
             //3. INSERT INTO CACHE
             pstmt = igniteConnection.prepareStatement("INSERT INTO employee (id, name, country) VALUES (?, ?, ?)");
             pstmt.setString(1, "100004");

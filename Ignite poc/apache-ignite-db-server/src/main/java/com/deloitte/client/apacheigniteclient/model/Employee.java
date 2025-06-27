@@ -2,17 +2,15 @@ package com.deloitte.client.apacheigniteclient.model;
 
 public class Employee {
     private String id;
-    private String firstName;
-    private String lastName;
-    private double salary;
+    private String name;
+    private String country;
     public Employee() {
 
     }
-    public Employee(String id, String firstName, String lastName, double salary) {
+    public Employee(String id, String name, String country) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.salary = salary;
+        this.name = name;
+        this.country = country;
     }
     public String getId() {
         return id;
@@ -21,36 +19,28 @@ public class Employee {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setNamr(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getCountry() {
+        return country;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override
     public String toString() {
         return "Employee{" +
                 "id='" + id + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", salary=" + salary +
+                ", firstName='" + name + '\'' +
+                ", lastName='" + country + '\'' +
                 '}';
     }
 }

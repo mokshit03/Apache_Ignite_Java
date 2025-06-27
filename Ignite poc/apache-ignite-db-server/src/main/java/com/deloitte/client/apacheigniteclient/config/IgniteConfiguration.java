@@ -17,6 +17,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
+import com.deloitte.client.apacheigniteclient.model.Employee;
+
 @Configuration
 public class IgniteConfiguration {
 
@@ -34,9 +36,7 @@ public class IgniteConfiguration {
             }
         }
         cfg.setWorkDirectory(workDir);
-
         Ignite ignite = Ignition.start(cfg);
-
         ignite.cluster().state(org.apache.ignite.cluster.ClusterState.ACTIVE);
 
         return ignite;
@@ -66,8 +66,9 @@ public class IgniteConfiguration {
     }
  
 private void createSqlTable(Ignite ignite) {
-    IgniteCache<String, Object> cache = ignite.getOrCreateCache(
-        new org.apache.ignite.configuration.CacheConfiguration<String, Object>("EmployeeCache")
+    ignite.destroyCache("EmployeeCache");
+    IgniteCache<String, Employee> cache = ignite.getOrCreateCache(
+        new org.apache.ignite.configuration.CacheConfiguration<String, Employee>("EmployeeCache")
             .setSqlSchema("PUBLIC")
             .setQueryParallelism(32)
             .setOnheapCacheEnabled(true)
@@ -77,8 +78,7 @@ private void createSqlTable(Ignite ignite) {
         "CREATE TABLE IF NOT EXISTS Employee (" +
         "id VARCHAR PRIMARY KEY, " +
         "name VARCHAR, " +
-        "country VARCHAR)"
-    )).getAll();
+        "country VARCHAR)WITH \"CACHE_NAME=EmployeeCache\"")).getAll();
 
     System.out.println("SQL Table Employee created.");
 }
