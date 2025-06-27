@@ -78,7 +78,7 @@ private void createSqlTable(Ignite ignite) {
         "CREATE TABLE IF NOT EXISTS Employee (" +
         "id VARCHAR PRIMARY KEY, " +
         "name VARCHAR, " +
-        "country VARCHAR)WITH \"CACHE_NAME=EmployeeCache\"")).getAll();
+        "country VARCHAR)")).getAll();
 
     System.out.println("SQL Table Employee created.");
 }
@@ -93,13 +93,12 @@ private void importDataFromMySQL(Ignite ignite) {
             Statement mysqlStmt = mysqlConn.createStatement();
             ResultSet rs = mysqlStmt.executeQuery("SELECT id, name, country FROM employee");
 
-            IgniteCache<String, Object> cache = ignite.cache("EmployeeCache");
+            IgniteCache<String, Employee> cache = ignite.cache("EmployeeCache");
 
             while (rs.next()) {
                 String id = rs.getString("id");
                 String name = rs.getString("name");
                 String country = rs.getString("country");
-
         
                 SqlFieldsQuery checkQuery = new SqlFieldsQuery(
                         "SELECT id FROM employee WHERE id = ?"
@@ -115,7 +114,6 @@ private void importDataFromMySQL(Ignite ignite) {
                     System.out.println("Skipping duplicate id: " + id);
                 }
             }
-
             rs.close();
             mysqlStmt.close();
             mysqlConn.close();
