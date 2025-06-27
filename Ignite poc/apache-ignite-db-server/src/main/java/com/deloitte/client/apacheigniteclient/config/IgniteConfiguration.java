@@ -69,6 +69,8 @@ private void createSqlTable(Ignite ignite) {
     IgniteCache<String, Object> cache = ignite.getOrCreateCache(
         new org.apache.ignite.configuration.CacheConfiguration<String, Object>("EmployeeCache")
             .setSqlSchema("PUBLIC")
+            .setQueryParallelism(32)
+            .setOnheapCacheEnabled(true)
     );
 
     cache.query(new SqlFieldsQuery(
