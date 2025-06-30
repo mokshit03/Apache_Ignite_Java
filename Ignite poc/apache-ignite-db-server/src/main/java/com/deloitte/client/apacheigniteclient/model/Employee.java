@@ -1,12 +1,19 @@
 package com.deloitte.client.apacheigniteclient.model;
 
-public class Employee {
-    private String id;
-    private String name;
-    private String country;
-    public Employee() {
+import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
-    }
+public class Employee {
+    @QuerySqlField(index = true)
+    private String id;
+
+    @QuerySqlField
+    private String name;
+
+    @QuerySqlField
+    private String country;
+    
+    public Employee() {}
+    
     public Employee(String id, String name, String country) {
         this.id = id;
         this.name = name;
