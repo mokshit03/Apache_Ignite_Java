@@ -11,17 +11,20 @@ public class Employee {
 
     @QuerySqlField
     private String country;
-    
-    public Employee() {}
-    
+
+    public Employee() {
+    }
+
     public Employee(String id, String name, String country) {
         this.id = id;
         this.name = name;
         this.country = country;
     }
+
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
